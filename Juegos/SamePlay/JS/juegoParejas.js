@@ -1,11 +1,15 @@
 var timer;
-window.onload = function (){
-    timer = setInterval(moverLogo(), 30000);
-    var padre = document.querySelector("body");
-    let opacidadFondo = document.createElement("div");
+
+//Cuando se recarga la página crea un efecto de fondo y el botón para comenzar a jugar
+window.onload = function () {
+    timer =  setInterval("animarLogo()", 2000);
+    let padre = document.querySelector("body");
+    padre.style.height = screen.availHeight + "px";
+    var opacidadFondo = document.createElement("div");
     opacidadFondo.style.zIndex = "1";
     opacidadFondo.style.backgroundColor = "black";
     opacidadFondo.style.opacity = "0.5";
+    opacidadFondo.style.width = padre.offsetWidth + "px";
     opacidadFondo.style.minWidth = window.innerWidth + "px";
     opacidadFondo.style.minHeight = window.innerHeight + "px";
     opacidadFondo.style.position = "aboslute";
@@ -14,11 +18,28 @@ window.onload = function (){
     opacidadFondo.style.display = "flex";
     opacidadFondo.style.justifyContent = "center";
     opacidadFondo.style.alignItems = "center";
+    opacidadFondo.style.flexDirection = "column";
 
-    padre.insertBefore(opacidadFondo,padre.firstChild);
+    padre.insertBefore(opacidadFondo, padre.firstChild);
 
     let boton = document.createElement("input");
-    boton.setAttribute("onclick","jugar()");
+    boton.onclick = function () {
+        elegirDificultad();
+    }
+    boton.onmouseover = function () {
+        boton.style.backgroundColor = "#95c9ef";
+        boton.style["-webkit-transition"] = "-webkit-transform 500ms linear";
+        boton.style["-webkit-transform"] = "scale(1.2)";
+        boton.style["transform"] = "transform:scale(1.2)";
+    }
+    boton.onmouseout = function () {
+        boton.style.backgroundColor = "#c0e66f";
+        boton.style["-webkit-transition"] = "-webkit-transform 500ms linear";
+        boton.style["-webkit-transform"] = "scale(0.8)";
+        boton.style["transform"] = "transform:scale(0.8)";
+    }
+
+
     boton.value = "!JUGAR¡";
     boton.type = "submit";
     boton.position = "absolute";
@@ -30,15 +51,86 @@ window.onload = function (){
     opacidadFondo.appendChild(boton);
 }
 
-function jugar(){
-    let padre = document.querySelector("body");
-    padre.removeChild(padre.firstChild);
-
-    
+function animarLogo() {
+    console.log("hola")
+    let logo = document.getElementById("logo");
+    logo.style["-webkit-transition"] = "-webkit-transform 500ms linear";
+    logo.style["-webkit-transform"] = "rotate(360deg)";
+    logo.style["transform"] = "rotate(360deg)";
 }
 
-function moverLogo(){
-    let logo = document.querySelector("img");
-    let estilos = window.getComputedStyle(logo);
-    logo.style.transform = "rotate(Y)";
+
+//Funcion que crea 3 botones para elegir la dificultad
+function elegirDificultad() {
+    let fondo = document.querySelector("div");
+    fondo.removeChild(fondo.firstChild);
+    for (let i = 1; i <= 3; i++) {
+        let dificultad = document.createElement("input");
+        switch (i) {
+
+            case 1:
+                dificultad.value = "!FÁCIL¡";
+                dificultad.name = "facil";
+                break;
+            case 2:
+                dificultad.value = "!MEDIO¡";
+                dificultad.name = "medio";
+
+                break;
+            case 3:
+                dificultad.value = "!DIFÍCIL¡";
+                dificultad.name = "dificil";
+                break;
+        }
+        dificultad.type = "submit";
+        dificultad.onclick = function () {
+            jugar(dificultad.getAttribute("name"));
+        }
+        dificultad.onmouseover = function () {
+            dificultad.style.backgroundColor = "#95c9ef";
+            dificultad.style["-webkit-transition"] = "-webkit-transform 500ms linear";
+            dificultad.style["-webkit-transform"] = "scale(1.2)";
+            dificultad.style["transform"] = "transform:scale(1.2)";
+        }
+        dificultad.onmouseout = function () {
+            dificultad.style.backgroundColor = "#d7c199";
+            dificultad.style["-webkit-transition"] = "-webkit-transform 500ms linear";
+            dificultad.style["-webkit-transform"] = "scale(0.8)";
+            dificultad.style["transform"] = "transform:scale(0.8)";
+        }
+
+        dificultad.position = "absolute";
+        dificultad.style.fontSize = "66px";
+        dificultad.style.backgroundColor = "#d7c199";
+        dificultad.style.filter = "drop-shadow(1px 1px 0.75rem #95c9ef)";
+        dificultad.style.boxShadow = "5px 10px"
+        dificultad.style.margin = "25px 0";
+        dificultad.zIndex = "2";
+        fondo.appendChild(dificultad);
+    }
+
+    function jugar(modo) {
+        let padre = document.querySelector("body");
+        let seccion = document.querySelector("section")
+        padre.removeChild(padre.firstChild);
+        let tabla = document.createElement("table");
+        tabla.style.width = "800px";
+        tabla.style.height = "800px";
+        tabla.style.border = "solid 1px";
+        tabla.style.position = "relative";
+        tabla.zIndex = "1"
+        let filas = document.getElementsByTagName("tr");
+        seccion.appendChild(tabla)
+        for (let i = 0; i < 2; i++) {
+            var fila = document.createElement("tr");
+            tabla.appendChild(fila);
+            for (let j = 0; j < 2; j++) {
+                let celda = document.createElement("td");
+                celda.style.border = "solid 1px";
+                filas[i].appendChild(celda);
+            }
+        }
+    }
+
+    
 }
