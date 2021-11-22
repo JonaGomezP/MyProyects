@@ -21,7 +21,7 @@ function crearBotones() {
     primerBoton.value = "Llamar ascensor";
     primerBoton.disabled = true;
     primerBoton.onclick = function () {
-        llamar(primerBoton,segundoBoton);
+        llamar(primerBoton, segundoBoton);
     }
     let segundoBoton = document.createElement("input");
     segundoBoton.type = "button";
@@ -29,7 +29,7 @@ function crearBotones() {
     segundoBoton.disabled = true;
 
     segundoBoton.onclick = function () {
-        apagar();
+        apagar(primerBoton,segundoBoton);
     }
 
     divBotones.appendChild(primerBoton);
@@ -53,36 +53,95 @@ function crearPlantas(numPisos) {
         }
     }
 
-    let botones  = document.getElementsByTagName("input");
+    let botones = document.getElementsByTagName("input");
     botones[0].disabled = false;
 }
 
 
-
-
-
 function cambiarIndicador() {
     let indicador = document.getElementById("indicador");
+    indicador.style.backgroundColor = "white";
+    indicador.style.textAlign = "center";
     let hijosIndicador = indicador.children;
-    console.log(hijosIndicador);
     let plantas = document.getElementsByClassName("planta");
     for (const planta of plantas) {
         if (planta.getAttribute("id") == "plantaActual") {
             hijosIndicador[0].innerHTML = planta.textContent;
-            hijosIndicador[1].innerHTML = "parado";
+            hijosIndicador[1].innerHTML = "Parado";
         }
     }
 }
 
 
-function llamar(primerBoton, segundoBoton){
-    let plantas = document.getElementsByClassName("planta");
-    segundoBoton.disabled = false;
-    let opcion = parseInt(prompt("¿A qué planta quiere ir?"));
+function llamar(primerBoton, segundoBoton) {
 
-    if(opcion < 1){
-        plantas[plantas.length - 1];
+    let plantas = document.getElementsByClassName("planta");
+    let indicador = document.getElementById("indicador");
+    let hijosIndicador = indicador.children;
+    segundoBoton.disabled = false;
+    let plantaActual = document.getElementById("plantaActual");
+
+    let opcion = parseInt(prompt("¿A qué planta quiere ir?"));
+    if (opcion < 1) {
+        plantaActual.style.backgroundColor = "white";
+        plantaActual.style.border = "none";
+        plantaActual.id = "";
+        plantas[plantas.length - 1].style.backgroundColor = "yellow";
+        plantas[plantas.length - 1].style.border = "solid 1px black";
+        plantas[plantas.length - 1].id = "plantaActual";
+        hijosIndicador[0].innerHTML = "1";
+        hijosIndicador[1].innerHTML = "Parado";
+    } else if (opcion > plantas.length) {
+        plantaActual.style.backgroundColor = "white";
+        plantaActual.style.border = "none";
+        plantaActual.id = "";
+        plantas[0].style.backgroundColor = "yellow";
+        plantas[0].style.border = "solid 1px black";
+        plantas[0].id = "plantaActual";
+        hijosIndicador[0].innerHTML = plantas.length;
+        hijosIndicador[1].innerHTML = "Parado";
+    } else if (opcion == parseInt(plantaActual.textContent)) {
+        indicador.style.backgroundColor = "orange";
+        hijosIndicador[0].innerHTML = "";
+        hijosIndicador[1].innerHTML = "PLANTA ACTUAL";
+        setTimeout(cambiarIndicador, 5000);
+    } else {
+        if (opcion > parseInt(plantaActual.textContent) && opcion < plantas.length) {
+            console.log("Subiendo desde la planta " + parseInt(plantaActual.textContent) + " a la planta " + opcion);
+        } else{
+            console.log("Bajando desde la planta " + parseInt(plantaActual.textContent) + " a la planta " + opcion);
+
+        }
+        plantaActual.style.backgroundColor = "white";
+        plantaActual.style.border = "none";
+        plantaActual.id = "";
+        for (const elemento of plantas) {
+            if (elemento.textContent == opcion) {
+                elemento.style.backgroundColor = "yellow";
+                elemento.style.border = "solid 1px black";
+                elemento.id = "plantaActual";
+            }
+        }
+        hijosIndicador[0].innerHTML = opcion;
+        hijosIndicador[1].innerHTML = "Parado";
     }
 
+}
+
+
+function apagar(primerBoton, segundoBoton){
+    let ascensor = document.getElementById("ascensor");
+    let hijosIndicador = indicador.children;
+    while(ascensor.firstChild){
+        ascensor.removeChild(ascensor.firstChild);
+    }
+
+    hijosIndicador[0].innerHTML = "X";
+    hijosIndicador[1].innerHTML = "Apagado";
+
+    primerBoton.disabled = true;
+    segundoBoton.disabled = true;
 
 }
+
+

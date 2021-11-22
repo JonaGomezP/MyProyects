@@ -174,8 +174,21 @@ function elegirDificultad() {
                 tabla.appendChild(fila);
                 for (let j = 0; j < 5; j++) {
                     let celda = document.createElement("td");
-                    celda.style.border = "solid 1px";
+                    celda.id = idCelda;
+                    celda.style.border = "solid 0.5px black";
+                    celda.className = "oculto";
+                    celda.style.padding = "0";
+                    celda.style.alignContent = "center"
+                    celda.style.display = "flexbox";
+                    celda.style.justifyContent = "center";
+                    celda.style.alignItems = "center";
+                    celda.style.position = "relative";
+                    celda.style.objectFit = "cover";
+                    celda.onclick = function () {
+                        mostrarCarta(this);
+                    }
                     filas[i].appendChild(celda);
+                    idCelda++;
                 }
             }
         } else {
@@ -184,8 +197,21 @@ function elegirDificultad() {
                 tabla.appendChild(fila);
                 for (let j = 0; j < 6; j++) {
                     let celda = document.createElement("td");
-                    celda.style.border = "solid 1px";
+                    celda.id = idCelda;
+                    celda.style.border = "solid 0.5px black";
+                    celda.className = "oculto";
+                    celda.style.padding = "0";
+                    celda.style.alignContent = "center"
+                    celda.style.display = "flexbox";
+                    celda.style.justifyContent = "center";
+                    celda.style.alignItems = "center";
+                    celda.style.position = "relative";
+                    celda.style.objectFit = "cover";
+                    celda.onclick = function () {
+                        mostrarCarta(this);
+                    }
                     filas[i].appendChild(celda);
+                    idCelda++;
                 }
             }
         }
