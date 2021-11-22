@@ -1,0 +1,44 @@
+#indicador{
+	position: fixed;
+	border: 2px solid black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	padding: 0;
+	width: 110px;
+	height: 75px;
+	font-family: "Courier New",monoespace;
+	font-size: 1.5em;
+}
+
+#ascensor{
+	margin: 0 auto;
+	padding: 1em;
+	width: 220px;
+	background-color: #804000;
+}
+
+.planta{
+	width: 120px;
+	height: 120px;
+	background-color: #FFF;
+	margin: 5px auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2em;
+}
+
+#botones{
+	position: fixed;
+	top: 100px;
+	width: 120px;
+}
+
+input[type="button"]{
+	border-radius: 3px;
+	width: 110px;
+	padding: .5em;
+}
+
