@@ -17,7 +17,7 @@ header{
 section{
   position: relative;
   min-width: max-content;
-  width: auto;
+  width: 100%;
   height: auto;
   display: flex;
   justify-content: start;
@@ -28,25 +28,37 @@ section{
   justify-content: center;
   align-items: center;
   padding: 0;
+
 }
 
 header img {
     object-fit: cover;
     position: relative;
 }
-img:hover{
-    -webkit-transform: rotateY(180deg);
-    -webkit-transform-style: preserve-3d;
-    transform: rotateY(180deg);
-    transform-style: preserve-3d;
-    filter: blur(3px);
-    transition-duration: 3000ms;
-    animation-fill-mode: forwards;
-}
 
+.primerGiro{
+    -webkit-transition: 900ms linear;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+.segundoGiro{
+    -webkit-transition: 900ms linear;
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+}
 
 body{
     display: flex;
     background: linear-gradient( to bottom, rgb(255, 255, 255), rgb(209, 209, 209) 50%, #c0e66f 100%);
+    height: 100%;
 }
+
+.oculto{
+    background-image: url(../IMG/samePlay.png);
+    object-fit: contain;
+}
+
+
+
+
 

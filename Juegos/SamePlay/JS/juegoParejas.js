@@ -2,9 +2,10 @@ var timer;
 
 //Cuando se recarga la página crea un efecto de fondo y el botón para comenzar a jugar
 window.onload = function () {
-    timer =  setInterval("animarLogo()", 2000);
+    timer = setInterval("animarLogo()", 10000);
+
+
     let padre = document.querySelector("body");
-    padre.style.height = screen.availHeight + "px";
     var opacidadFondo = document.createElement("div");
     opacidadFondo.style.zIndex = "1";
     opacidadFondo.style.backgroundColor = "black";
@@ -21,6 +22,16 @@ window.onload = function () {
     opacidadFondo.style.flexDirection = "column";
 
     padre.insertBefore(opacidadFondo, padre.firstChild);
+
+
+
+
+    //Guardamos el section
+    let seccion = document.querySelector("section");
+    seccion.style.width = padre.offsetWidth + "px";
+    seccion.style.height = padre.offsetHeight + "px";
+
+
 
     let boton = document.createElement("input");
     boton.onclick = function () {
@@ -52,11 +63,13 @@ window.onload = function () {
 }
 
 function animarLogo() {
-    console.log("hola")
     let logo = document.getElementById("logo");
-    logo.style["-webkit-transition"] = "-webkit-transform 500ms linear";
-    logo.style["-webkit-transform"] = "rotate(360deg)";
-    logo.style["transform"] = "rotate(360deg)";
+    if (logo.getAttribute("class") == "primerGiro") {
+        logo.className = "segundoGiro";
+    } else {
+        logo.className = "primerGiro";
+
+    }
 }
 
 
@@ -109,28 +122,92 @@ function elegirDificultad() {
         fondo.appendChild(dificultad);
     }
 
+    //Crea la matriz en función de la dificultad elegida
     function jugar(modo) {
+        //Guardamos los elementos body y section
         let padre = document.querySelector("body");
         let seccion = document.querySelector("section")
+        //Elimina el primer hijo del body (efecto y botones de dificultad) cuando le damos a jugar
         padre.removeChild(padre.firstChild);
+        //Creamos la tabla y le damos algún estilo
         let tabla = document.createElement("table");
         tabla.style.width = "800px";
-        tabla.style.height = "800px";
-        tabla.style.border = "solid 1px";
+        tabla.style.height = "700px";
         tabla.style.position = "relative";
-        tabla.zIndex = "1"
+        tabla.style.display = "flexbox";
+        tabla.style.borderSpacing = "5px";
+        tabla.style.borderCollapse = "separate"
+        tabla.zIndex = "1";
         let filas = document.getElementsByTagName("tr");
+        //Añadimos la tabla al section
         seccion.appendChild(tabla)
-        for (let i = 0; i < 2; i++) {
-            var fila = document.createElement("tr");
-            tabla.appendChild(fila);
-            for (let j = 0; j < 2; j++) {
-                let celda = document.createElement("td");
-                celda.style.border = "solid 1px";
-                filas[i].appendChild(celda);
+
+        //Comenzamos los bucles para crear las filas y columnas en función de la dificultad
+        let imagenes = new Array();
+        let idCelda = 1;
+        if (modo == "facil") {
+            for (let i = 0; i < 4; i++) {
+                var fila = document.createElement("tr");
+                tabla.appendChild(fila);
+                for (let j = 0; j < 4; j++) {
+                    let celda = document.createElement("td");
+                    celda.id = idCelda;
+                    celda.style.border = "solid 0.5px black";
+                    celda.className = "oculto";
+                    celda.style.padding = "0";
+                    celda.style.alignContent = "center"
+                    celda.style.display = "flexbox";
+                    celda.style.justifyContent = "center";
+                    celda.style.alignItems = "center";
+                    celda.style.position = "relative";
+                    celda.style.objectFit = "cover";
+                    celda.onclick = function () {
+                        mostrarCarta(this);
+                    }
+                    filas[i].appendChild(celda);
+                    idCelda++;
+                }
+            }
+        } else if (modo == "medio") {
+            for (let i = 0; i < 5; i++) {
+                var fila = document.createElement("tr");
+                tabla.appendChild(fila);
+                for (let j = 0; j < 5; j++) {
+                    let celda = document.createElement("td");
+                    celda.style.border = "solid 1px";
+                    filas[i].appendChild(celda);
+                }
+            }
+        } else {
+            for (let i = 0; i < 6; i++) {
+                var fila = document.createElement("tr");
+                tabla.appendChild(fila);
+                for (let j = 0; j < 6; j++) {
+                    let celda = document.createElement("td");
+                    celda.style.border = "solid 1px";
+                    filas[i].appendChild(celda);
+                }
             }
         }
+
     }
 
-    
+    function mostrarCarta(celda) {
+        let carta = document.createElement("img");
+        carta.style.width = celda.offsetWidth + "px";
+        carta.style.height = celda.offsetHeight + "px";
+        carta.style.lineHeight = celda.offsetHeight + "px"
+        carta.style.position = "absolute";
+        carta.style.top = "0";
+        carta.style.objectFit = "cover";
+        carta.src = "../IMG/3.png";
+        celda.appendChild(carta);
+        celda.className = "";
+
+
+        let aleatorio = parseInt(Math.floor((Math.random() * 18) + 1));
+
+    }
+
+
 }
