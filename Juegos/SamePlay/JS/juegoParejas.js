@@ -5,6 +5,7 @@ window.onload = function () {
     timer = setInterval("animarLogo()", 10000);
 
 
+    //Creo la opacidad de fondo al recargar la página donde se muestran los botones de "jugar" y las dificultades
     let padre = document.querySelector("body");
     var opacidadFondo = document.createElement("div");
     opacidadFondo.style.zIndex = "1";
@@ -62,6 +63,7 @@ window.onload = function () {
     opacidadFondo.appendChild(boton);
 }
 
+//Funcion que anima el logo
 function animarLogo() {
     let logo = document.getElementById("logo");
     if (logo.getAttribute("class") == "primerGiro") {
@@ -73,6 +75,7 @@ function animarLogo() {
 }
 
 
+
 //Funcion que crea 3 botones para elegir la dificultad
 function elegirDificultad() {
     let fondo = document.querySelector("div");
@@ -80,7 +83,6 @@ function elegirDificultad() {
     for (let i = 1; i <= 3; i++) {
         let dificultad = document.createElement("input");
         switch (i) {
-
             case 1:
                 dificultad.value = "!FÁCIL¡";
                 dificultad.name = "facil";
@@ -142,16 +144,18 @@ function elegirDificultad() {
         //Añadimos la tabla al section
         seccion.appendChild(tabla)
 
-        //Comenzamos los bucles para crear las filas y columnas en función de la dificultad
-        let imagenes = new Array();
-        let idCelda = 1;
+
+        //Creo array para guardar los aleatorios que va creando cada celda y que máximo se repita una vez
+        let numImagen = new Array();
+        let segundoNumImagen = new Array();
+        //Modo fácil (4x4)
         if (modo == "facil") {
+            let contador = 0;
             for (let i = 0; i < 4; i++) {
                 var fila = document.createElement("tr");
                 tabla.appendChild(fila);
                 for (let j = 0; j < 4; j++) {
                     let celda = document.createElement("td");
-                    celda.id = idCelda;
                     celda.style.border = "solid 0.5px black";
                     celda.className = "oculto";
                     celda.style.padding = "0";
@@ -165,16 +169,62 @@ function elegirDificultad() {
                         mostrarCarta(this);
                     }
                     filas[i].appendChild(celda);
-                    idCelda++;
+                    celda.className = "oculto";
+
+
+
+
+                    if (numImagen.length < (4 * 4 / 2)) {
+                        //genero aleatorio para distribuir las imágenes
+                        let aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                        while (numImagen.includes(aleatorio)) {
+                            aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                        }
+                        numImagen.push(aleatorio);
+                        let carta = document.createElement("img");
+                        carta.style.lineHeight = celda.offsetHeight + "px"
+                        carta.style.position = "absolute";
+                        carta.style.top = "0";
+                        carta.style.objectFit = "contains";
+                        carta.src = "../IMG/" + aleatorio + ".png";
+                        carta.className = "carta";
+                        carta.hidden = false;
+                        celda.appendChild(carta);
+                        console.log(numImagen);
+
+                    } else {
+                        //genero aleatorio para distribuir las imágenes
+                        let aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                        
+                        while (!numImagen.includes(aleatorio) && segundoNumImagen.includes(aleatorio)) {
+                            aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                        }
+                        console.log(aleatorio);
+                        segundoNumImagen.push(aleatorio);
+                        let carta = document.createElement("img");
+                        carta.style.lineHeight = celda.offsetHeight + "px"
+                        carta.style.position = "absolute";
+                        carta.style.top = "0";
+                        carta.style.objectFit = "contains";
+                        carta.src = "../IMG/" + aleatorio + ".png";
+                        carta.className = "carta";
+                        carta.hidden = false;
+                        celda.appendChild(carta);
+                        console.log(segundoNumImagen);
+
+
+                    }
+
                 }
             }
+            //Modo medio (6x4)
         } else if (modo == "medio") {
-            for (let i = 0; i < 5; i++) {
+            let contador = 0;
+            for (let i = 0; i < 4; i++) {
                 var fila = document.createElement("tr");
                 tabla.appendChild(fila);
-                for (let j = 0; j < 5; j++) {
+                for (let j = 0; j < 6; j++) {
                     let celda = document.createElement("td");
-                    celda.id = idCelda;
                     celda.style.border = "solid 0.5px black";
                     celda.className = "oculto";
                     celda.style.padding = "0";
@@ -188,16 +238,16 @@ function elegirDificultad() {
                         mostrarCarta(this);
                     }
                     filas[i].appendChild(celda);
-                    idCelda++;
                 }
             }
+            //Modo difícil (6x6)
         } else {
+            let contador = 0;
             for (let i = 0; i < 6; i++) {
                 var fila = document.createElement("tr");
                 tabla.appendChild(fila);
                 for (let j = 0; j < 6; j++) {
                     let celda = document.createElement("td");
-                    celda.id = idCelda;
                     celda.style.border = "solid 0.5px black";
                     celda.className = "oculto";
                     celda.style.padding = "0";
@@ -209,29 +259,19 @@ function elegirDificultad() {
                     celda.style.objectFit = "cover";
                     celda.onclick = function () {
                         mostrarCarta(this);
+                        comprobarCeldas(this);
                     }
                     filas[i].appendChild(celda);
-                    idCelda++;
                 }
             }
         }
 
     }
 
+
     function mostrarCarta(celda) {
-        let carta = document.createElement("img");
-        carta.style.width = celda.offsetWidth + "px";
-        carta.style.height = celda.offsetHeight + "px";
-        carta.style.lineHeight = celda.offsetHeight + "px"
-        carta.style.position = "absolute";
-        carta.style.top = "0";
-        carta.style.objectFit = "cover";
-        carta.src = "../IMG/3.png";
-        celda.appendChild(carta);
-        celda.className = "";
-
-
-        let aleatorio = parseInt(Math.floor((Math.random() * 18) + 1));
+        let cartaActiva = celda.firstChild;
+        cartaActiva.hidden = false;
 
     }
 
