@@ -70,6 +70,10 @@ function cambiarIndicador() {
             hijosIndicador[1].innerHTML = "Parado";
         }
     }
+
+    [plantas].forEach(planta => {
+        console.log(planta)
+    });
 }
 
 

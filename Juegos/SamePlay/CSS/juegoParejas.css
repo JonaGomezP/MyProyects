@@ -53,8 +53,24 @@ body{
     height: 100%;
 }
 
-.oculto{
+.celdaOculta{
     background-image: url(../IMG/samePlay.png);
+    object-fit: contain;
+    border: 1px solid black;
+
+}
+
+.celdaMostrada{
+    object-fit: contain;
+    
+}
+td{
+    display: flexbox;
+    padding: 0;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     object-fit: contain;
 }
 
@@ -62,6 +78,10 @@ body{
     width: 100%;
     height: 100%;
     object-fit: contain;
+    visibility: hidden;
+    -webkit-transition: 500ms linear;
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
 
 

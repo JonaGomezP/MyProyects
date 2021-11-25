@@ -144,124 +144,136 @@ function elegirDificultad() {
         //Añadimos la tabla al section
         seccion.appendChild(tabla)
 
-
-        //Creo array para guardar los aleatorios que va creando cada celda y que máximo se repita una vez
-        let numImagen = new Array();
-        let segundoNumImagen = new Array();
         //Modo fácil (4x4)
         if (modo == "facil") {
             let contador = 0;
+            //Creo un array que donde voy a guardar el número de la imagen. El tamaño de este array será en función al modo y genero la mitad de números aleatorios y la otra mitad se rellena en base a los primeros generados
+            let fotos = new Array();
+            for (let i = 0; i < 8; i++) {
+                let aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                while (fotos.includes(aleatorio) == true) {
+                    aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                }
+                if ((!fotos.includes(aleatorio))) {
+                    for (let i = 0; i < 2; i++) {
+                        fotos.push(aleatorio);
+                    }
+                }
+            }
             for (let i = 0; i < 4; i++) {
                 var fila = document.createElement("tr");
                 tabla.appendChild(fila);
                 for (let j = 0; j < 4; j++) {
                     let celda = document.createElement("td");
-                    celda.style.border = "solid 0.5px black";
-                    celda.className = "oculto";
-                    celda.style.padding = "0";
-                    celda.style.alignContent = "center"
-                    celda.style.display = "flexbox";
-                    celda.style.justifyContent = "center";
-                    celda.style.alignItems = "center";
-                    celda.style.position = "relative";
-                    celda.style.objectFit = "cover";
+                    celda.className = "celdaOculta";
+                    
                     celda.onclick = function () {
                         mostrarCarta(this);
                     }
                     filas[i].appendChild(celda);
-                    celda.className = "oculto";
 
-
-
-
-                    if (numImagen.length < (4 * 4 / 2)) {
-                        //genero aleatorio para distribuir las imágenes
-                        let aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
-                        while (numImagen.includes(aleatorio)) {
-                            aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
-                        }
-                        numImagen.push(aleatorio);
-                        let carta = document.createElement("img");
-                        carta.style.lineHeight = celda.offsetHeight + "px"
-                        carta.style.position = "absolute";
-                        carta.style.top = "0";
-                        carta.style.objectFit = "contains";
-                        carta.src = "../IMG/" + aleatorio + ".png";
-                        carta.className = "carta";
-                        carta.hidden = false;
-                        celda.appendChild(carta);
-                        console.log(numImagen);
-
-                    } else {
-                        //genero aleatorio para distribuir las imágenes
-                        let aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
-                        
-                        while (!numImagen.includes(aleatorio) && segundoNumImagen.includes(aleatorio)) {
-                            aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
-                        }
-                        console.log(aleatorio);
-                        segundoNumImagen.push(aleatorio);
-                        let carta = document.createElement("img");
-                        carta.style.lineHeight = celda.offsetHeight + "px"
-                        carta.style.position = "absolute";
-                        carta.style.top = "0";
-                        carta.style.objectFit = "contains";
-                        carta.src = "../IMG/" + aleatorio + ".png";
-                        carta.className = "carta";
-                        carta.hidden = false;
-                        celda.appendChild(carta);
-                        console.log(segundoNumImagen);
-
-
-                    }
+                    let aleatorio = parseInt(Math.round((Math.random() * (fotos.length - 1))));
+                    let elemento = fotos[aleatorio];
+                    console.log(aleatorio)
+                    let carta = document.createElement("img");
+                    carta.style.lineHeight = celda.offsetHeight + "px";
+                    carta.style.position = "absolute";
+                    carta.style.top = "0";
+                    carta.style.objectFit = "contains";
+                    carta.src = "../IMG/" + elemento + ".png";
+                    carta.className = "carta";
+                    carta.hidden = false;
+                    celda.appendChild(carta);
+                    fotos.splice(aleatorio, 1);
 
                 }
             }
             //Modo medio (6x4)
         } else if (modo == "medio") {
             let contador = 0;
+            //Creo un array que donde voy a guardar el número de la imagen. El tamaño de este array será en función al modo y genero la mitad de números aleatorios y la otra mitad se rellena en base a los primeros generados
+            let fotos = new Array();
+            for (let i = 0; i < 12; i++) {
+                let aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                while (fotos.includes(aleatorio) == true) {
+                    aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                }
+                if ((!fotos.includes(aleatorio))) {
+                    for (let i = 0; i < 2; i++) {
+                        fotos.push(aleatorio);
+                    }
+                }
+            }
             for (let i = 0; i < 4; i++) {
                 var fila = document.createElement("tr");
                 tabla.appendChild(fila);
                 for (let j = 0; j < 6; j++) {
                     let celda = document.createElement("td");
-                    celda.style.border = "solid 0.5px black";
-                    celda.className = "oculto";
-                    celda.style.padding = "0";
-                    celda.style.alignContent = "center"
-                    celda.style.display = "flexbox";
-                    celda.style.justifyContent = "center";
-                    celda.style.alignItems = "center";
-                    celda.style.position = "relative";
-                    celda.style.objectFit = "cover";
+                    celda.className = "celdaOculta";
+                    
                     celda.onclick = function () {
                         mostrarCarta(this);
                     }
                     filas[i].appendChild(celda);
+
+
+                    let aleatorio = parseInt(Math.round((Math.random() * (fotos.length - 1))));
+                    let elemento = fotos[aleatorio];
+                    console.log(aleatorio)
+                    let carta = document.createElement("img");
+                    carta.style.lineHeight = celda.offsetHeight + "px";
+                    carta.style.position = "absolute";
+                    carta.style.top = "0";
+                    carta.style.objectFit = "contains";
+                    carta.src = "../IMG/" + elemento + ".png";
+                    carta.className = "carta";
+                    carta.hidden = true;
+                    celda.appendChild(carta);
+                    fotos.splice(aleatorio, 1);
+
                 }
             }
             //Modo difícil (6x6)
         } else {
             let contador = 0;
+            //Creo un array que donde voy a guardar el número de la imagen. El tamaño de este array será en función al modo y genero la mitad de números aleatorios y la otra mitad se rellena en base a los primeros generados
+            let fotos = new Array();
+            for (let i = 0; i < 18; i++) {
+                let aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                while (fotos.includes(aleatorio) == true) {
+                    aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
+                }
+                if ((!fotos.includes(aleatorio))) {
+                    for (let i = 0; i < 2; i++) {
+                        fotos.push(aleatorio);
+                    }
+                }
+            }
+
             for (let i = 0; i < 6; i++) {
                 var fila = document.createElement("tr");
                 tabla.appendChild(fila);
                 for (let j = 0; j < 6; j++) {
                     let celda = document.createElement("td");
-                    celda.style.border = "solid 0.5px black";
-                    celda.className = "oculto";
-                    celda.style.padding = "0";
-                    celda.style.alignContent = "center"
-                    celda.style.display = "flexbox";
-                    celda.style.justifyContent = "center";
-                    celda.style.alignItems = "center";
-                    celda.style.position = "relative";
-                    celda.style.objectFit = "cover";
+                    // celda.style.border = "solid 0.5px black";
+                    celda.className = "celdaOculta";
                     celda.onclick = function () {
-                        mostrarCarta(this);
-                        comprobarCeldas(this);
+                        mostrarCarta(celda);
                     }
                     filas[i].appendChild(celda);
+
+                    let aleatorio = parseInt(Math.round((Math.random() * (fotos.length - 1))));
+                    let elemento = fotos[aleatorio];
+                    console.log(aleatorio)
+                    let carta = document.createElement("img");
+                    carta.style.lineHeight = celda.offsetHeight + "px";
+                    carta.style.position = "absolute";
+                    carta.style.top = "0";
+                    carta.style.objectFit = "contains";
+                    carta.src = "../IMG/" + elemento + ".png";
+                    carta.className = "carta";
+                    celda.appendChild(carta);
+                    fotos.splice(aleatorio, 1);
                 }
             }
         }
@@ -270,8 +282,13 @@ function elegirDificultad() {
 
 
     function mostrarCarta(celda) {
+        celda.style["-webkit-transition"] = "-webkit-transform 500ms linear";
+        celda.style["-webkit-transform"] = "rotateY(180deg)";
+        celda.style["rotate"] = "transform:rotateY(180deg)";;
+        celda.className = "";
+
         let cartaActiva = celda.firstChild;
-        cartaActiva.hidden = false;
+        cartaActiva.style.visibility = "visible"
 
     }
 
