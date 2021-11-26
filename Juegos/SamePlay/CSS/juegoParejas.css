@@ -4,10 +4,18 @@
     overflow: hidden;
     font-family: 'Space Mono', monospace;
 }
-
+body{
+    display: flex;
+    background: linear-gradient( to bottom, rgb(255, 255, 255), rgb(209, 209, 209) 50%, #c0e66f 100%);
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
 header{
     position: fixed;
-    min-width: 100%;
+    top: 0;
+    max-width: 20%;
+    min-width: 10%;
     width: 10%;
     height: 10em;
     display: flex;
@@ -47,11 +55,7 @@ header img {
     transform: rotate(-360deg);
 }
 
-body{
-    display: flex;
-    background: linear-gradient( to bottom, rgb(255, 255, 255), rgb(209, 209, 209) 50%, #c0e66f 100%);
-    height: 100%;
-}
+
 
 .celdaOculta{
     background-image: url(../IMG/samePlay.png);
@@ -62,10 +66,18 @@ body{
 
 .celdaMostrada{
     object-fit: contain;
-    
+    object-fit: contain;
+    visibility: visible;
 }
+
+table{
+    position: static;
+    width: 900px;
+    height: 700px;
+    max-height: 100vh;
+}
+
 td{
-    display: flexbox;
     padding: 0;
     align-content: center;
     justify-content: center;
@@ -83,8 +95,24 @@ td{
     -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
-
-
+#contador{
+    column-count: 2;
+    column-rule: solid 1px white;
+}
+.tituloContador{
+    text-transform: uppercase;
+    margin: 0 5px;
+    padding: 0 2px;
+    font-family: 'VT323', monospace;
+    font-size: x-large;
+}
+.divContador{
+    display: flex;
+    flex-direction: column;
+    font-family: 'VT323', monospace;
+    font-size: 5rem;
+    text-align: center;
+}
 
 
 

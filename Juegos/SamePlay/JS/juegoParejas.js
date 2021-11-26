@@ -126,17 +126,64 @@ function elegirDificultad() {
 
     //Crea la matriz en función de la dificultad elegida
     function jugar(modo) {
+        
         //Guardamos los elementos body y section
         let padre = document.querySelector("body");
         let seccion = document.querySelector("section")
         //Elimina el primer hijo del body (efecto y botones de dificultad) cuando le damos a jugar
         padre.removeChild(padre.firstChild);
+
+        //Creo un nuevo elemento para el contador de parejas encontradas
+        let contadorParejas = document.createElement("div");
+        contadorParejas.id = "contador";
+        contadorParejas.style.position = "fixed";
+        contadorParejas.style.right = "0";
+        contadorParejas.style.marginRight = "40px";
+        // contadorParejas.style.lineHeight = padre.offsetHeight + "px";
+        contadorParejas.style.backgroundColor = "black";
+        contadorParejas.style.display = "inline-flex";
+        contadorParejas.style.width = "auto";
+        contadorParejas.style.maxWidth = "250px"
+        contadorParejas.style.height  ="auto";
+        contadorParejas.style.color = "white";
+        contadorParejas.style.padding = " 5px";
+        contadorParejas.style.borderRadius = "10px";
+        padre.appendChild(contadorParejas);
+        
+
+        let divParejas = document.createElement("div");
+        divParejas.className = "divContador";
+        contadorParejas.appendChild(divParejas);
+        let tituloParejas = document.createElement("h3");
+        tituloParejas.className = "tituloContador";
+        tituloParejas.textContent = "Parejas";
+        tituloParejas.style.borderRight = "solid 1px white";
+        tituloParejas.style.paddingRight = "15px";
+        divParejas.appendChild(tituloParejas);
+        let marcadorParejas = document.createTextNode("");
+        marcadorParejas.id = "marcadorParejas";
+        divParejas.appendChild(marcadorParejas);
+
+
+        let divEncontradas = document.createElement("div");
+        divEncontradas.className = "divContador";
+        contadorParejas.appendChild(divEncontradas);
+        let tituloEncontradas = document.createElement("h3");
+        tituloEncontradas.className = "tituloContador";
+        tituloEncontradas.textContent = "Encontradas";
+        divEncontradas.appendChild(tituloEncontradas);
+        let marcadorEncontradas = document.createTextNode(0);
+        marcadorEncontradas.id = "marcadorEncontradas";
+        divEncontradas.appendChild(marcadorEncontradas);
+
+
+
         //Creamos la tabla y le damos algún estilo
         let tabla = document.createElement("table");
-        tabla.style.width = "800px";
+        tabla.style.width = "900px";
         tabla.style.height = "700px";
+        tabla.style.maxHeight = "100vh"
         tabla.style.position = "relative";
-        tabla.style.display = "flexbox";
         tabla.style.borderSpacing = "5px";
         tabla.style.borderCollapse = "separate"
         tabla.zIndex = "1";
@@ -144,11 +191,16 @@ function elegirDificultad() {
         //Añadimos la tabla al section
         seccion.appendChild(tabla)
 
+        //Creo un array que donde voy a guardar el número de la imagen. El tamaño de este array será en función al modo y genero la mitad de números aleatorios y la otra mitad se rellena en base a los primeros generados
+        let fotos = new Array();
+
+        //Creo un número que será el id de cada celda
+        let identificadorCelda = 1;
         //Modo fácil (4x4)
         if (modo == "facil") {
+            marcadorParejas.textContent = (4*4)/2;
             let contador = 0;
-            //Creo un array que donde voy a guardar el número de la imagen. El tamaño de este array será en función al modo y genero la mitad de números aleatorios y la otra mitad se rellena en base a los primeros generados
-            let fotos = new Array();
+            
             for (let i = 0; i < 8; i++) {
                 let aleatorio = parseInt(Math.round((Math.random() * 17) + 1));
                 while (fotos.includes(aleatorio) == true) {
@@ -166,15 +218,12 @@ function elegirDificultad() {
                 for (let j = 0; j < 4; j++) {
                     let celda = document.createElement("td");
                     celda.className = "celdaOculta";
-                    
-                    celda.onclick = function () {
-                        mostrarCarta(this);
-                    }
+                    celda.id = identificadorCelda;
+                    identificadorCelda ++;
                     filas[i].appendChild(celda);
 
                     let aleatorio = parseInt(Math.round((Math.random() * (fotos.length - 1))));
                     let elemento = fotos[aleatorio];
-                    console.log(aleatorio)
                     let carta = document.createElement("img");
                     carta.style.lineHeight = celda.offsetHeight + "px";
                     carta.style.position = "absolute";
@@ -186,10 +235,15 @@ function elegirDificultad() {
                     celda.appendChild(carta);
                     fotos.splice(aleatorio, 1);
 
+                    celda.onclick = function () {
+                        mostrarCarta(celda);
+                    }
+                    
                 }
             }
             //Modo medio (6x4)
         } else if (modo == "medio") {
+            marcadorParejas.textContent = (4*6)/2;
             let contador = 0;
             //Creo un array que donde voy a guardar el número de la imagen. El tamaño de este array será en función al modo y genero la mitad de números aleatorios y la otra mitad se rellena en base a los primeros generados
             let fotos = new Array();
@@ -210,16 +264,11 @@ function elegirDificultad() {
                 for (let j = 0; j < 6; j++) {
                     let celda = document.createElement("td");
                     celda.className = "celdaOculta";
-                    
-                    celda.onclick = function () {
-                        mostrarCarta(this);
-                    }
-                    filas[i].appendChild(celda);
 
+                    filas[i].appendChild(celda);
 
                     let aleatorio = parseInt(Math.round((Math.random() * (fotos.length - 1))));
                     let elemento = fotos[aleatorio];
-                    console.log(aleatorio)
                     let carta = document.createElement("img");
                     carta.style.lineHeight = celda.offsetHeight + "px";
                     carta.style.position = "absolute";
@@ -227,14 +276,18 @@ function elegirDificultad() {
                     carta.style.objectFit = "contains";
                     carta.src = "../IMG/" + elemento + ".png";
                     carta.className = "carta";
-                    carta.hidden = true;
+                    carta.hidden = false;
                     celda.appendChild(carta);
                     fotos.splice(aleatorio, 1);
+                    celda.onclick = function () {
+                        mostrarCarta(celda);
+                    }
 
                 }
             }
             //Modo difícil (6x6)
         } else {
+            marcadorParejas.textContent = (6*6)/2;
             let contador = 0;
             //Creo un array que donde voy a guardar el número de la imagen. El tamaño de este array será en función al modo y genero la mitad de números aleatorios y la otra mitad se rellena en base a los primeros generados
             let fotos = new Array();
@@ -257,23 +310,22 @@ function elegirDificultad() {
                     let celda = document.createElement("td");
                     // celda.style.border = "solid 0.5px black";
                     celda.className = "celdaOculta";
-                    celda.onclick = function () {
-                        mostrarCarta(celda);
-                    }
                     filas[i].appendChild(celda);
 
                     let aleatorio = parseInt(Math.round((Math.random() * (fotos.length - 1))));
                     let elemento = fotos[aleatorio];
-                    console.log(aleatorio)
                     let carta = document.createElement("img");
                     carta.style.lineHeight = celda.offsetHeight + "px";
                     carta.style.position = "absolute";
                     carta.style.top = "0";
                     carta.style.objectFit = "contains";
-                    carta.src = "../IMG/" + elemento + ".png";
+                    // carta.src = "../IMG/" + elemento + ".png";
                     carta.className = "carta";
                     celda.appendChild(carta);
                     fotos.splice(aleatorio, 1);
+                    celda.onclick = function () {
+                        mostrarCarta(celda);
+                    }
                 }
             }
         }
@@ -281,16 +333,36 @@ function elegirDificultad() {
     }
 
 
-    function mostrarCarta(celda) {
+    function mostrarCarta(celda, numFoto) {
         celda.style["-webkit-transition"] = "-webkit-transform 500ms linear";
         celda.style["-webkit-transform"] = "rotateY(180deg)";
         celda.style["rotate"] = "transform:rotateY(180deg)";;
-        celda.className = "";
+        celda.style.backgroundImage = "URL(../IMG/" + numFoto + "7png')";
+        celda.className = "celdaMostrada";
 
         let cartaActiva = celda.firstChild;
-        cartaActiva.style.visibility = "visible"
+        cartaActiva.style.visibility = "visible";
+
+        comprobarCarta(celda);
 
     }
 
 
+    function comprobarCarta(celda){
+        let cartaActiva = celda;
+        let cartasTotales = document.getElementsByTagName("td");
+        for (let i = 0; i < cartasTotales.length; i++) {
+            if((cartaActiva.id != cartasTotales[i].id) || (cartaActiva.src == cartasTotales[i].src)){
+
+            }
+            
+        }
+ }
+    function ocultarCarta (){
+        let cartasTotales = document.getElementsByTagName("td");
+        for (const cartaMostrada of cartasTotales) {
+            
+        }
+
+    }
 }
