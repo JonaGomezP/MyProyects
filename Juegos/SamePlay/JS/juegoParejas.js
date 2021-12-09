@@ -12,8 +12,8 @@ window.onload = function () {
     opacidadFondo.style.backgroundColor = "black";
     opacidadFondo.style.opacity = "0.5";
     opacidadFondo.style.width = padre.offsetWidth + "px";
-    opacidadFondo.style.minWidth = window.innerWidth + "px";
-    opacidadFondo.style.minHeight = window.innerHeight + "px";
+    opacidadFondo.style.minWidth = screen.width + "px";
+    opacidadFondo.style.minHeight = screen.height + "px";
     opacidadFondo.style.position = "aboslute";
     opacidadFondo.style.top = "0";
     opacidadFondo.style.left = "0";
@@ -21,18 +21,14 @@ window.onload = function () {
     opacidadFondo.style.justifyContent = "center";
     opacidadFondo.style.alignItems = "center";
     opacidadFondo.style.flexDirection = "column";
-
+    opacidadFondo.style.margin = "0";
+    //Agrego al body el la opacidad de fondo antes del primer hijo que tenga
     padre.insertBefore(opacidadFondo, padre.firstChild);
 
-
-
-
-    //Guardamos el section
+    //Guardamos el section que va a tener el contenido del juego
     let seccion = document.querySelector("section");
     seccion.style.width = padre.offsetWidth + "px";
     seccion.style.height = padre.offsetHeight + "px";
-
-
 
     let boton = document.createElement("input");
     boton.onclick = function () {
@@ -50,7 +46,6 @@ window.onload = function () {
         boton.style["-webkit-transform"] = "scale(0.8)";
         boton.style["transform"] = "transform:scale(0.8)";
     }
-
 
     boton.value = "!JUGAR¡";
     boton.type = "submit";
@@ -148,6 +143,9 @@ function elegirDificultad() {
         contadorParejas.style.color = "white";
         contadorParejas.style.padding = " 5px";
         contadorParejas.style.borderRadius = "10px";
+        contadorParejas.style.top = "3em";
+        contadorParejas.style.right = "4em"
+
         padre.appendChild(contadorParejas);
         
 
@@ -183,7 +181,7 @@ function elegirDificultad() {
         tabla.style.width = "900px";
         tabla.style.height = "700px";
         tabla.style.maxHeight = "100vh"
-        tabla.style.position = "relative";
+        tabla.style.position = "absolute";
         tabla.style.borderSpacing = "5px";
         tabla.style.borderCollapse = "separate"
         tabla.zIndex = "1";
@@ -219,6 +217,7 @@ function elegirDificultad() {
                     let celda = document.createElement("td");
                     celda.className = "celdaOculta";
                     celda.id = identificadorCelda;
+                    celda.style.position = "relative";
                     identificadorCelda ++;
                     filas[i].appendChild(celda);
 
@@ -319,7 +318,7 @@ function elegirDificultad() {
                     carta.style.position = "absolute";
                     carta.style.top = "0";
                     carta.style.objectFit = "contains";
-                    // carta.src = "../IMG/" + elemento + ".png";
+                    carta.src = "../IMG/" + elemento + ".png";
                     carta.className = "carta";
                     celda.appendChild(carta);
                     fotos.splice(aleatorio, 1);
@@ -344,6 +343,8 @@ function elegirDificultad() {
         cartaActiva.style.visibility = "visible";
 
         comprobarCarta(celda);
+        let tabla = document.querySelector("table");
+        console.log(tabla);
 
     }
 
@@ -352,8 +353,8 @@ function elegirDificultad() {
         let cartaActiva = celda;
         let cartasTotales = document.getElementsByTagName("td");
         for (let i = 0; i < cartasTotales.length; i++) {
-            if((cartaActiva.id != cartasTotales[i].id) || (cartaActiva.src == cartasTotales[i].src)){
-
+            if((cartaActiva.id != cartasTotales[i].id) && (cartaActiva.src == cartasTotales[i].src)){
+                
             }
             
         }
